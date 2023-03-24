@@ -26,7 +26,7 @@ The examples are organized into Jupyter notebooks, which can be run locally on y
 To run the notebooks locally, first clone the repository to your machine:
 
 ```
-git clone https://github.com/your-username/sympy-examples.git](https://github.com/juanjfndz/Symbolic-Algebra-Examples/tree/main/Sympy
+git clone https://github.com/your-username/sympy-examples.git
 ```
 ## Contributing
 
