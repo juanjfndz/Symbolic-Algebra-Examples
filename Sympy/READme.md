@@ -2,6 +2,15 @@
 
 This repository contains examples of how to use the SymPy library, a Python library for symbolic mathematics.
 
+## Contents
+
+- `Fourier_Transform.ipynb`: Example of how to use SymPy to perform Fourier transforms and their inverses.
+- `Laplace_transform.ipynb`: Example of how to use SymPy to perform Laplace transforms and their inverses.
+- `Differential_Equation.ipynb`: Example of how to use SymPy to solve ordinary differential equations.
+- `Lorentz_factor.ipynb`: Example of how to use SymPy to calculate the Lorentz factor for special relativity.
+- `Schrödinger_Equation.ipynb`: Example of how to use SymPy to solve the Schrödinger equation for quantum mechanics.
+
+
 ## Installation
 
 To use the examples in this repository, you need to have SymPy installed. You can install SymPy using pip:
@@ -9,7 +18,6 @@ To use the examples in this repository, you need to have SymPy installed. You ca
 ```
 pip install sympy
 ```
-
 
 ## Usage
 
