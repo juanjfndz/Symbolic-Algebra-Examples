@@ -1,0 +1,751 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     27555,        743]
+NotebookOptionsPosition[     23331,        660]
+NotebookOutlinePosition[     23729,        676]
+CellTagsIndexPosition[     23686,        673]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"Quit", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.910368639609741*^9, 3.910368640878811*^9}, {
+  3.91036876692308*^9, 3.910368783042697*^9}},
+ CellLabel->"In[15]:=",ExpressionUUID->"bbcf15aa-f0d9-46ff-ac9a-7308c01a6546"],
+
+Cell[CellGroupData[{
+
+Cell[" Functional Analysis with Mathematica: ", "Title",
+ CellChangeTimes->{{3.910369059626399*^9, 
+  3.9103690684977303`*^9}},ExpressionUUID->"3c295464-8005-4eb2-8179-\
+009737e7cc84"],
+
+Cell["Gateaux Derivative and Gelfand-Pettis Integral", "Subtitle",
+ CellChangeTimes->{{3.910369071250884*^9, 
+  3.910369085721674*^9}},ExpressionUUID->"3fdf1f87-cfa2-4382-8811-\
+2b93ba5a19c8"],
+
+Cell["Juan Jos\[EAcute] Fern\[AAcute]ndez Morales", "Author",
+ CellChangeTimes->{{3.910369095493576*^9, 
+  3.910369100281439*^9}},ExpressionUUID->"6b855e38-b1dc-4f17-baf3-\
+7ee4fa8b0ecd"],
+
+Cell["\<\
+In functional analysis, the Gateaux derivative and the Gelfand-Pettis \
+integral are pivotal tools for studying functions in normed vector spaces. \
+This document provides a practical example to illustrate their application \
+using Mathematica.\
+\>", "Abstract",
+ CellChangeTimes->{
+  3.9103691204382687`*^9},ExpressionUUID->"668a940b-5f52-48d9-94fa-\
+07045a6ab94e"],
+
+Cell["\<\
+We will implement the Gateaux derivative using an alternative expression and \
+integrate it using the Gelfand-Pettis integral. Our goal is to verify the \
+consistency of these mathematical operations in a simple model.\
+\>", "Text",
+ CellChangeTimes->{{3.910369134460411*^9, 3.910369213086707*^9}, {
+  3.910369256568375*^9, 
+  3.910369264236148*^9}},ExpressionUUID->"1a137c18-3070-4144-9c84-\
+6ae09543f510"],
+
+Cell[CellGroupData[{
+
+Cell["Implementation Toy Model: Numerical Calculus. ", "Chapter",
+ CellChangeTimes->{{3.910369239895795*^9, 3.910369244424945*^9}, {
+  3.910369909813396*^9, 3.910369915069602*^9}, {3.910370033869649*^9, 
+  3.9103700448770933`*^9}},ExpressionUUID->"330a28b8-7cfd-45d4-894e-\
+4aaa191aa786"],
+
+Cell[CellGroupData[{
+
+Cell["1. Function and Parameter Definition", "Section",
+ CellChangeTimes->{
+  3.910369303608142*^9},ExpressionUUID->"53cb11d6-30c2-4a18-92bd-\
+91c7e45a3913"],
+
+Cell[TextData[{
+ "- A simple function ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["F", "TI"], 
+         RowBox[{"(", 
+           RowBox[{
+             StyleBox["x", "TI"], ",", 
+             StyleBox["y", "TI"]}], ")"}], "\[LongEqual]", 
+         SuperscriptBox[
+          StyleBox["x", "TI"], "2"], 
+         StyleBox["y", "TI"]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "F(x,y) = x^{2} y", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "b0843f90-c8c6-49b0-81de-02467cb9d62f"],
+ " is defined, with specific points and directions chosen."
+}], "Text",
+ CellChangeTimes->{{3.910369269131309*^9, 
+  3.9103693179772263`*^9}},ExpressionUUID->"728d23fe-2133-41d5-939b-\
+b5342dd7eeda"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"F", "[", 
+    RowBox[{"x_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"x", "^", "2"}], " ", "y"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"x0", "=", "1"}], ";", 
+   RowBox[{"y0", "=", "2"}], ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"Punto", " ", "inicial"}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"hx", "=", "0.5"}], ";", 
+   RowBox[{"hy", "=", "0.3"}], ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"Direcci\[OAcute]n", " ", "de", " ", "la", " ", "derivada"}], 
+   "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.9103692901981153`*^9, 3.910369291237849*^9}, 
+   3.91036933006126*^9, {3.9103698453127403`*^9, 3.910369845703511*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"eec98b6c-9e79-46a0-bdfe-bd8d0ca6f314"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. Gateaux Derivative", "Section",
+ CellChangeTimes->{{3.910369340356844*^9, 
+  3.910369344786886*^9}},ExpressionUUID->"9d64e278-5b10-413d-9902-\
+ef4884de96fa"],
+
+Cell[TextData[{
+ "\nCertainly! The Gateaux derivative is a concept in functional analysis, an \
+extension of the notion of derivative to the context of normed vector spaces. \
+For a function ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["f", "TI"], ":", 
+         StyleBox["X", "TI"], "\[Rule]", 
+         StyleBox["Y", "TI"]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "f: X \\rightarrow Y", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "8f70d38d-917b-4158-9aef-c1311d622604"],
+ ", where ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       StyleBox["X", "TI"], TraditionalForm], "errors" -> {}, "input" -> "X", 
+     "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "ac788675-144a-4220-b747-1c418a87050e"],
+ " and ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       StyleBox["Y", "TI"], TraditionalForm], "errors" -> {}, "input" -> "Y", 
+     "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "9a138d1f-5f02-4157-b863-c89cb6e8a641"],
+ " are normed vector spaces, the Gateaux derivative of ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       StyleBox["f", "TI"], TraditionalForm], "errors" -> {}, "input" -> "f", 
+     "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "3ea75942-34f4-443e-b32c-e5c147596d2f"],
+ " at a point ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["x", "TI"], "\[Element]", 
+         StyleBox["X", "TI"]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "x \\in X", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "9edc6430-6814-44ac-be42-6f5b7eae1e81"],
+ " in the direction ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["h", "TI"], "\[Element]", 
+         StyleBox["X", "TI"]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "h \\in X", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "50d4c083-157d-4c15-9c0f-ceb558c0edae"],
+ " is defined as:\n\n\n",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         SubscriptBox[
+          StyleBox["D", "TI"], "G"], 
+         StyleBox["f", "TI"], 
+         RowBox[{"(", 
+           RowBox[{
+             StyleBox["x", "TI"], ";", 
+             StyleBox["h", "TI"]}], ")"}], "\[LongEqual]", 
+         UnderscriptBox["lim", 
+          RowBox[{
+            StyleBox["t", "TI"], "\[Rule]", "0"}], LimitsPositioning -> True], 
+         FractionBox[
+          RowBox[{
+            StyleBox["f", "TI"], 
+            RowBox[{"(", 
+              RowBox[{
+                StyleBox["x", "TI"], "+", 
+                StyleBox["t", "TI"], 
+                StyleBox["h", "TI"]}], ")"}], "-", 
+            StyleBox["f", "TI"], 
+            RowBox[{"(", 
+              StyleBox["x", "TI"], ")"}]}], 
+          StyleBox["t", "TI"]]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "D_{\\text{G}}f(x; h) = \\lim_{t \\rightarrow 0} \\frac{f(x + th) - \
+f(x)}{t}", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "60fad6aa-70de-47aa-8772-4145e539425b"],
+ "\n\n\nif this limit exists. This definition is akin to the ordinary \
+derivative but applies in the context of more general vector spaces and \
+considers a specific direction ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       StyleBox["h", "TI"], TraditionalForm], "errors" -> {}, "input" -> "h", 
+     "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "b045446f-4f80-4e9f-8892-1c4d97b0beb1"],
+ " in the space.\n\n- The alternative expression of the Gateaux derivative is \
+used, involving differentiation with respect to a parameter.\n\n",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["d", "TI"], 
+         StyleBox["F", "TI"], 
+         RowBox[{"(", 
+           RowBox[{
+             StyleBox["u", "TI"], ";", "\[Psi]"}], ")"}], "\[LongEqual]", 
+         SubscriptBox[
+          RowBox[{
+            RowBox[{
+              FractionBox[
+               StyleBox["d", "TI"], 
+               RowBox[{
+                 StyleBox["d", "TI"], "\[Tau]"}]], 
+              StyleBox["F", "TI"], 
+              RowBox[{"(", 
+                RowBox[{
+                  StyleBox["u", "TI"], "+", "\[Tau]\[Psi]"}], ")"}]}], 
+            "\[VerticalSeparator]"}], 
+          RowBox[{"\[Tau]", "\[LongEqual]", "0"}]]}], TraditionalForm], 
+     "errors" -> {}, "input" -> 
+     "dF(u; \\psi) = \\left. \\frac{d}{d\\tau} F(u + \\tau \\psi) \
+\\right|_{\\tau=0}", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "8ddc6f62-912f-4bfc-a7fd-8c2ed367ac6a"]
+}], "Text",
+ CellChangeTimes->{{3.910369391457687*^9, 3.910369419630787*^9}, {
+  3.910369457390431*^9, 3.910369571349931*^9}, {3.910369639086102*^9, 
+  3.910369640428759*^9}},ExpressionUUID->"962f8d03-4c72-4a09-8b86-\
+d24741bd07d0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"GateauxDerivative", "[", 
+    RowBox[{"F_", ",", "x0_", ",", "y0_", ",", "hx_", ",", "hy_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"D", "[", 
+     RowBox[{
+      RowBox[{"F", "[", 
+       RowBox[{
+        RowBox[{"x0", "+", 
+         RowBox[{"\[Tau]", " ", "hx"}]}], ",", 
+        RowBox[{"y0", "+", 
+         RowBox[{"\[Tau]", " ", "hy"}]}]}], "]"}], ",", "\[Tau]"}], "]"}], "/.",
+     " ", 
+    RowBox[{"\[Tau]", "->", "0"}]}]}], ";"}], "\n", 
+ RowBox[{"gDeriv", "=", 
+  RowBox[{"GateauxDerivative", "[", 
+   RowBox[{"F", ",", "x0", ",", "y0", ",", "hx", ",", "hy"}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.91036977299289*^9, 3.910369781423582*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"06c9cb38-e400-4611-9e81-23ca21e573d2"],
+
+Cell[BoxData["2.3`"], "Output",
+ CellChangeTimes->{3.910369781867221*^9, 3.910369928426516*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"bdc12e2d-5a69-4d38-ac1e-9b2eb7c524ec"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3. Gelfand-Pettis Integral", "Section",
+ CellChangeTimes->{{3.910369628386107*^9, 
+  3.910369632942271*^9}},ExpressionUUID->"07494daf-3f67-4c3e-a4ba-\
+dc960c16a2c1"],
+
+Cell[TextData[{
+ "The Gelfand\[Dash]Pettis integral, which can be considered as an inverse \
+operation to the Gateaux derivative in a certain context, is defined in the \
+framework of the Gateaux derivative as follows:\n\nSuppose we have a function \
+",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["F", "TI"], ":", 
+         StyleBox["X", "TI"], "\[Rule]", 
+         StyleBox["Y", "TI"]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "F: X \\to Y", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "c3d5c1e2-0865-4f6f-83c3-d40fbff723ad"],
+ " that is continuously differentiable in the Gateaux sense (denoted as ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       SuperscriptBox[
+        StyleBox["C", "TI"], "1"], TraditionalForm], "errors" -> {}, "input" -> 
+     "C^1", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "3ef2b004-fceb-4dc4-ae33-aa80adef793e"],
+ "). Then, for any ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["u", "TI"], "\[Element]", 
+         StyleBox["U", "TI"]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "u \\in U", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "3d461515-81e0-41ba-941d-128493e62721"],
+ " and ",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["h", "TI"], "\[Element]", 
+         StyleBox["X", "TI"]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "h \\in X", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "282d5037-5a14-473e-8e6e-5c8f5110bd1e"],
+ ", it holds that:\n\n",
+ Cell[BoxData[
+  FormBox[
+   TemplateBox[<|"boxes" -> FormBox[
+       RowBox[{
+         StyleBox["F", "TI"], 
+         RowBox[{"(", 
+           RowBox[{
+             StyleBox["u", "TI"], "+", 
+             StyleBox["h", "TI"]}], ")"}], "-", 
+         StyleBox["F", "TI"], 
+         RowBox[{"(", 
+           StyleBox["u", "TI"], ")"}], "\[LongEqual]", 
+         SubsuperscriptBox["\[Integral]", "0", "1"], 
+         StyleBox["d", "TI"], 
+         StyleBox["F", "TI"], 
+         RowBox[{"(", 
+           RowBox[{
+             StyleBox["u", "TI"], "+", 
+             StyleBox["t", "TI"], 
+             StyleBox["h", "TI"], ";", 
+             StyleBox["h", "TI"]}], ")"}], "\[DifferentialD]", 
+         StyleBox["t", "TI"]}], TraditionalForm], "errors" -> {}, "input" -> 
+     "F(u+h) - F(u) = \\int_{0}^{1} dF(u + th; h) \\, dt", "state" -> "Boxes"|>,
+    "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
+  "c01499f0-33c7-4725-adfa-5de31adfd5db"],
+ "\n\nHere, the integral is the Gelfand\[Dash]Pettis integral, also known as \
+the weak integral.\n\nThis integral provides a means to integrate functions \
+in topological vector spaces, which are more general than Banach or Hilbert \
+spaces where the Riemann or Lebesgue integral is defined. The \
+Gelfand\[Dash]Pettis integral is particularly useful in distribution theory \
+and functional analysis, where the functions to be integrated may not be real \
+or complex-valued in the traditional sense, but rather take values in more \
+abstract vector spaces."
+}], "Text",
+ CellChangeTimes->{{3.910369659469614*^9, 
+  3.91036971021152*^9}},ExpressionUUID->"b78619f4-cc17-4133-9bf2-\
+21b985b393a5"],
+
+Cell["\<\
+- The obtained derivative is integrated along a linear path in the vector \
+space.\
+\>", "Text",
+ CellChangeTimes->{{3.910369279257512*^9, 3.9103692797298393`*^9}, {
+   3.9103693436351852`*^9, 3.910369349656646*^9}, {3.910369382281858*^9, 
+   3.910369383474128*^9}, 3.910369414365672*^9, 3.9103696318857527`*^9, {
+   3.910369715658866*^9, 
+   3.9103697316455936`*^9}},ExpressionUUID->"1e8ac62b-822c-4120-bdf7-\
+5424b458308e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"gPettisInt", "=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{"GateauxDerivative", "[", 
+     RowBox[{"F", ",", 
+      RowBox[{"x0", "+", 
+       RowBox[{"t", "*", "hx"}]}], ",", 
+      RowBox[{"y0", "+", 
+       RowBox[{"t", "*", "hy"}]}], ",", "hx", ",", "hy"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"t", ",", "0", ",", "1"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.91036981753587*^9, 3.910369822581706*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"299a3ba4-5ddd-49b1-a828-d9757e570b23"],
+
+Cell[BoxData["3.175`"], "Output",
+ CellChangeTimes->{3.910369823170855*^9, 3.9103699307337112`*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"e61f0e39-9b29-4d2f-a7a0-f54468604159"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4. Verification", "Section",
+ CellChangeTimes->{{3.9103697376510897`*^9, 
+  3.9103697434442167`*^9}},ExpressionUUID->"b3434587-b161-467f-bc2f-\
+155178ac3a5d"],
+
+Cell["\<\
+- We check if the Gelfand-Pettis integral recovers the difference in the \
+function\[CloseCurlyQuote]s values at two points.\
+\>", "Text",
+ CellChangeTimes->{{3.9103693741241837`*^9, 3.910369378916294*^9}, {
+  3.9103697467598133`*^9, 
+  3.910369750106941*^9}},ExpressionUUID->"fed52e5e-ce57-4730-af62-\
+febcb1291da6"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"expectedDifference", "=", 
+   RowBox[{
+    RowBox[{"F", "[", 
+     RowBox[{
+      RowBox[{"x0", "+", "hx"}], ",", 
+      RowBox[{"y0", "+", "hy"}]}], "]"}], "-", 
+    RowBox[{"F", "[", 
+     RowBox[{"x0", ",", "y0"}], "]"}]}]}], ";"}], "\n", 
+ RowBox[{"verification", "=", 
+  RowBox[{"gPettisInt", "==", "expectedDifference"}]}], "\n"}], "Input",
+ CellChangeTimes->{{3.910369832210956*^9, 3.910369835241685*^9}},
+ CellLabel->"In[7]:=",ExpressionUUID->"7bd27ea2-dafb-4756-afbd-e3386bfd115a"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.910369835734549*^9, 3.91036993237192*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"b43aae4e-420d-4b83-b21e-01b87e95493e"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Implementation Toy Model: Analitical Calculus. ", "Chapter",
+ CellChangeTimes->{{3.910369239895795*^9, 3.910369244424945*^9}, {
+  3.910369909813396*^9, 3.910369915069602*^9}, {3.910370033869649*^9, 
+  3.91037006389902*^9}},ExpressionUUID->"568a2278-d8ce-4d3d-8f4d-\
+38910d02cb39"],
+
+Cell["\<\
+In the updated Mathematica code for using symbolic variables `\[Delta]x` and \
+`\[Delta]y` instead of numeric values for `hx` and `hy`, the following \
+changes were made:
+
+1. Function and Parameter Definition:
+   - Defined the function `F[x, y]` as before.
+   - Set initial point `(x0, y0)` as before.
+   - Introduced `\[Delta]x` and `\[Delta]y` as symbolic variables, \
+representing directional derivatives in a more general form.
+
+2. Gateaux Derivative:
+   - Modified the `GateauxDerivative` function to use `\[Delta]x` and `\
+\[Delta]y` instead of numerical `hx` and `hy`.
+
+3. Gelfand-Pettis Integral:
+   - Adjusted the integral calculation to incorporate these symbolic variables.
+
+4. Verification:
+   - Updated the verification step to reflect the symbolic nature of \
+`\[Delta]x` and `\[Delta]y`.
+
+This change allows the code to perform calculations in a more general manner, \
+enabling subsequent evaluation for any specific values of `\[Delta]x` and `\
+\[Delta]y`.\
+\>", "Text",
+ CellChangeTimes->{{3.9103703144969893`*^9, 
+  3.9103703479737873`*^9}},ExpressionUUID->"664476c0-f0b2-402e-b9af-\
+b12b66ca7324"],
+
+Cell[CellGroupData[{
+
+Cell["1. Function and Parameter Definition", "Section",
+ CellChangeTimes->{
+  3.910369303608142*^9},ExpressionUUID->"da3dd31e-5e4d-4b21-8a29-\
+ec70ba8cf24f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"F", "[", 
+    RowBox[{"x_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"x", "^", "2"}], " ", "y"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"x0", "=", "1"}], ";", 
+   RowBox[{"y0", "=", "2"}], ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"Punto", " ", "inicial"}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Delta]x", "=", 
+    RowBox[{"Symbol", "[", "\"\<\[Delta]x\>\"", "]"}]}], ";", 
+   RowBox[{"\[Delta]y", "=", 
+    RowBox[{"Symbol", "[", "\"\<\[Delta]y\>\"", "]"}]}], ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Direcciones", " ", "simb\[OAcute]licas", " ", "de", " ", "la", " ", 
+    "derivada"}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.9103692901981153`*^9, 3.910369291237849*^9}, 
+   3.91036933006126*^9, {3.9103698453127403`*^9, 3.910369845703511*^9}, {
+   3.910370164527029*^9, 3.910370165585243*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"4f0f7c5f-6852-42d9-b416-3d30ec39070b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. Gateaux Derivative", "Section",
+ CellChangeTimes->{{3.910369340356844*^9, 
+  3.910369344786886*^9}},ExpressionUUID->"72300097-ed60-47e1-b9e2-\
+c4ad9c39f775"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"GateauxDerivative", "[", 
+    RowBox[{
+    "F_", ",", "x0_", ",", "y0_", ",", "\[Delta]x_", ",", "\[Delta]y_"}], 
+    "]"}], ":=", 
+   RowBox[{
+    RowBox[{"D", "[", 
+     RowBox[{
+      RowBox[{"F", "[", 
+       RowBox[{
+        RowBox[{"x0", "+", 
+         RowBox[{"\[Tau]", " ", "\[Delta]x"}]}], ",", 
+        RowBox[{"y0", "+", 
+         RowBox[{"\[Tau]", " ", "\[Delta]y"}]}]}], "]"}], ",", "\[Tau]"}], 
+     "]"}], "/.", " ", 
+    RowBox[{"\[Tau]", "->", "0"}]}]}], ";"}], "\n", 
+ RowBox[{"gDeriv", "=", 
+  RowBox[{"GateauxDerivative", "[", 
+   RowBox[{"F", ",", "x0", ",", "y0", ",", "\[Delta]x", ",", "\[Delta]y"}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.91036977299289*^9, 3.910369781423582*^9}, {
+  3.910370179198701*^9, 3.9103701831921864`*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"5ee05ee9-e5ab-4fa9-b474-70513084b6dd"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"4", " ", "\[Delta]x"}], "+", "\[Delta]y"}]], "Output",
+ CellChangeTimes->{3.910370183603177*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"f5da0e87-ed76-4e1d-abc7-a62eb2d3c0cf"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3. Gelfand-Pettis Integral", "Section",
+ CellChangeTimes->{{3.910369628386107*^9, 
+  3.910369632942271*^9}},ExpressionUUID->"33b9f8e7-48a2-4fa0-a7c0-\
+ef01ef0716b4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"gPettisInt", "=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{"GateauxDerivative", "[", 
+     RowBox[{"F", ",", 
+      RowBox[{"x0", "+", 
+       RowBox[{"t", "*", "\[Delta]x"}]}], ",", 
+      RowBox[{"y0", "+", 
+       RowBox[{"t", "*", "\[Delta]y"}]}], ",", "\[Delta]x", ",", 
+      "\[Delta]y"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"t", ",", "0", ",", "1"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.91036981753587*^9, 3.910369822581706*^9}, {
+  3.910370192383801*^9, 3.910370213234253*^9}, {3.910370246138084*^9, 
+  3.9103702466290617`*^9}},
+ CellLabel->"In[26]:=",ExpressionUUID->"fb89d070-4dfe-48a7-8bd7-4592a2a746f5"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"4", " ", "\[Delta]x"}], "+", 
+  RowBox[{"2", " ", 
+   SuperscriptBox["\[Delta]x", "2"]}], "+", "\[Delta]y", "+", 
+  RowBox[{"2", " ", "\[Delta]x", " ", "\[Delta]y"}], "+", 
+  RowBox[{
+   SuperscriptBox["\[Delta]x", "2"], " ", "\[Delta]y"}]}]], "Output",
+ CellChangeTimes->{
+  3.910369823170855*^9, 3.9103699307337112`*^9, {3.910370194154295*^9, 
+   3.910370213642269*^9}, 3.9103702470854053`*^9},
+ CellLabel->"Out[26]=",ExpressionUUID->"b7c07af3-51e5-489d-bd36-35f1c4b2a45b"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4. Verification", "Section",
+ CellChangeTimes->{{3.9103697376510897`*^9, 
+  3.9103697434442167`*^9}},ExpressionUUID->"319e6b8c-87b3-424d-a266-\
+22fdb0e5ba3b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"expectedDifference", "=", 
+   RowBox[{
+    RowBox[{"F", "[", 
+     RowBox[{
+      RowBox[{"x0", "+", "\[Delta]x"}], ",", 
+      RowBox[{"y0", "+", "\[Delta]y"}]}], "]"}], "-", 
+    RowBox[{"F", "[", 
+     RowBox[{"x0", ",", "y0"}], "]"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"verification", "=", 
+   RowBox[{
+    RowBox[{"Simplify", "[", 
+     RowBox[{"gPettisInt", "-", "expectedDifference"}], "]"}], " ", "==", " ",
+     "0"}]}], " "}], "\n"}], "Input",
+ CellChangeTimes->{{3.910369832210956*^9, 3.910369835241685*^9}, {
+  3.910370200570374*^9, 3.91037024140764*^9}},
+ CellLabel->"In[27]:=",ExpressionUUID->"a8b1df61-87d7-4745-8abd-80733bb7e468"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{
+  3.910369835734549*^9, 3.91036993237192*^9, {3.910370202549046*^9, 
+   3.9103702490367947`*^9}},
+ CellLabel->"Out[28]=",ExpressionUUID->"c534e579-d7aa-4985-adf2-912ee8c9255d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{Full, Full},
+WindowMargins->{{4, Automatic}, {Automatic, 4}},
+FrontEndVersion->"13.1 for Mac OS X ARM (64-bit) (June 16, 2022)",
+StyleDefinitions->"ReverseColor.nb",
+ExpressionUUID->"16710682-2b5f-447f-95c0-3cb3801f087b"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 245, 4, 30, "Input",ExpressionUUID->"bbcf15aa-f0d9-46ff-ac9a-7308c01a6546"],
+Cell[CellGroupData[{
+Cell[828, 28, 184, 3, 98, "Title",ExpressionUUID->"3c295464-8005-4eb2-8179-009737e7cc84"],
+Cell[1015, 33, 192, 3, 53, "Subtitle",ExpressionUUID->"3fdf1f87-cfa2-4382-8811-2b93ba5a19c8"],
+Cell[1210, 38, 187, 3, 31, "Author",ExpressionUUID->"6b855e38-b1dc-4f17-baf3-7ee4fa8b0ecd"],
+Cell[1400, 43, 376, 8, 85, "Abstract",ExpressionUUID->"668a940b-5f52-48d9-94fa-07045a6ab94e"],
+Cell[1779, 53, 417, 8, 52, "Text",ExpressionUUID->"1a137c18-3070-4144-9c84-6ae09543f510"],
+Cell[CellGroupData[{
+Cell[2221, 65, 288, 4, 69, "Chapter",ExpressionUUID->"330a28b8-7cfd-45d4-894e-4aaa191aa786"],
+Cell[CellGroupData[{
+Cell[2534, 73, 157, 3, 67, "Section",ExpressionUUID->"53cb11d6-30c2-4a18-92bd-91c7e45a3913"],
+Cell[2694, 78, 788, 21, 35, "Text",ExpressionUUID->"728d23fe-2133-41d5-939b-b5342dd7eeda"],
+Cell[3485, 101, 777, 22, 73, "Input",ExpressionUUID->"eec98b6c-9e79-46a0-bdfe-bd8d0ca6f314"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4299, 128, 166, 3, 67, "Section",ExpressionUUID->"9d64e278-5b10-413d-9902-ef4884de96fa"],
+Cell[4468, 133, 5179, 132, 319, "Text",ExpressionUUID->"962f8d03-4c72-4a09-8b86-d24741bd07d0"],
+Cell[CellGroupData[{
+Cell[9672, 269, 785, 21, 52, "Input",ExpressionUUID->"06c9cb38-e400-4611-9e81-23ca21e573d2"],
+Cell[10460, 292, 173, 2, 34, "Output",ExpressionUUID->"bdc12e2d-5a69-4d38-ac1e-9b2eb7c524ec"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10682, 300, 171, 3, 67, "Section",ExpressionUUID->"07494daf-3f67-4c3e-a4ba-dc960c16a2c1"],
+Cell[10856, 305, 3425, 81, 255, "Text",ExpressionUUID->"b78619f4-cc17-4133-9bf2-21b985b393a5"],
+Cell[14284, 388, 435, 9, 32, "Text",ExpressionUUID->"1e8ac62b-822c-4120-bdf7-5424b458308e"],
+Cell[CellGroupData[{
+Cell[14744, 401, 540, 13, 30, "Input",ExpressionUUID->"299a3ba4-5ddd-49b1-a828-d9757e570b23"],
+Cell[15287, 416, 177, 2, 34, "Output",ExpressionUUID->"e61f0e39-9b29-4d2f-a7a0-f54468604159"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15513, 424, 164, 3, 67, "Section",ExpressionUUID->"b3434587-b161-467f-bc2f-155178ac3a5d"],
+Cell[15680, 429, 327, 7, 32, "Text",ExpressionUUID->"fed52e5e-ce57-4730-af62-febcb1291da6"],
+Cell[CellGroupData[{
+Cell[16032, 440, 526, 13, 73, "Input",ExpressionUUID->"7bd27ea2-dafb-4756-afbd-e3386bfd115a"],
+Cell[16561, 455, 172, 2, 34, "Output",ExpressionUUID->"b43aae4e-420d-4b83-b21e-01b87e95493e"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16794, 464, 286, 4, 69, "Chapter",ExpressionUUID->"568a2278-d8ce-4d3d-8f4d-38910d02cb39"],
+Cell[17083, 470, 1126, 28, 352, "Text",ExpressionUUID->"664476c0-f0b2-402e-b9af-b12b66ca7324"],
+Cell[CellGroupData[{
+Cell[18234, 502, 157, 3, 67, "Section",ExpressionUUID->"da3dd31e-5e4d-4b21-8a29-ec70ba8cf24f"],
+Cell[18394, 507, 965, 26, 73, "Input",ExpressionUUID->"4f0f7c5f-6852-42d9-b416-3d30ec39070b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19396, 538, 166, 3, 67, "Section",ExpressionUUID->"72300097-ed60-47e1-b9e2-c4ad9c39f775"],
+Cell[CellGroupData[{
+Cell[19587, 545, 890, 24, 52, "Input",ExpressionUUID->"5ee05ee9-e5ab-4fa9-b474-70513084b6dd"],
+Cell[20480, 571, 210, 4, 34, "Output",ExpressionUUID->"f5da0e87-ed76-4e1d-abc7-a62eb2d3c0cf"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20739, 581, 171, 3, 67, "Section",ExpressionUUID->"33b9f8e7-48a2-4fa0-a7c0-ef01ef0716b4"],
+Cell[CellGroupData[{
+Cell[20935, 588, 676, 16, 30, "Input",ExpressionUUID->"fb89d070-4dfe-48a7-8bd7-4592a2a746f5"],
+Cell[21614, 606, 510, 11, 34, "Output",ExpressionUUID->"b7c07af3-51e5-489d-bd36-35f1c4b2a45b"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22173, 623, 164, 3, 67, "Section",ExpressionUUID->"319e6b8c-87b3-424d-a266-22fdb0e5ba3b"],
+Cell[CellGroupData[{
+Cell[22362, 630, 686, 18, 73, "Input",ExpressionUUID->"a8b1df61-87d7-4745-8abd-80733bb7e468"],
+Cell[23051, 650, 228, 4, 34, "Output",ExpressionUUID->"c534e579-d7aa-4985-adf2-912ee8c9255d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
